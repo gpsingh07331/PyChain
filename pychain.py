@@ -29,6 +29,7 @@ from typing import Any, List
 import datetime as datetime
 import pandas as pd
 import hashlib
+from PIL import Image
 
 ################################################################################
 # Step 1:
@@ -57,7 +58,7 @@ class Record:
     sender: str
     receiver: str 
     timestamp: str = datetime.datetime.utcnow().strftime("%H:%M:%S")
-    amount: float = 0
+    amount: float = 0.0
 ################################################################################
 # Step 2:
 # Modify the Existing Block Data Class to Store Record Data
@@ -150,11 +151,16 @@ def setup():
     print("Initializing Chain")
     return PyChain([Block("Genesis", 0)])
 
-
-st.markdown("# PyChain")
-st.markdown("## Store a Transaction Record in the PyChain")
-
 pychain = setup()
+
+st.markdown("# POW Hash Ledger")
+title_image = Image.open("./IMG/Title.png")
+st.image(title_image)
+st.markdown("## Store a Transaction Record in the PyChain")
+st.markdown("This ledger should allow partner banks to conduct financial transactions \
+    (that is, to transfer money between senders and receivers) and to verify the integrity of the data in the ledger.")
+
+
 
 ################################################################################
 # Step 3:
@@ -177,16 +183,16 @@ pychain = setup()
 # @TODO:
 # Add an input area where you can get a value for `sender` from the user.
 # YOUR CODE HERE
-sender_data= st.text_input('Sender')
+sender_data= st.text_input('Input Sender Information, entity inititating the transaction:')
 # @TODO:
 # Add an input area where you can get a value for `receiver` from the user.
 # YOUR CODE HERE
-receiver_data = st.text_input('Receiver')
+receiver_data = st.text_input('Input Receiver Information, entity receiving the amount:')
 # @TODO:
 # Add an input area where you can get a value for `amount` from the user.
 # YOUR CODE HERE
-amount_data = st.text_input('Amount')
-if st.button("Add Block"):
+amount_data = st.text_input('Input Amount of transaction:')
+if st.button("Add Block of transaction"):
     prev_block = pychain.chain[-1]
     prev_block_hash = prev_block.hash_block()
 
@@ -195,7 +201,7 @@ if st.button("Add Block"):
     # which is set equal to a `Record` that contains the `sender`, `receiver`,
     # and `amount` values
     new_block = Block(
-        record = Record(sender_data, receiver_data, amount_data ),
+        record = Record(sender_data, receiver_data, amount ),
         creator_id=42,
         prev_hash=prev_block_hash
     )
@@ -209,21 +215,54 @@ if st.button("Add Block"):
 st.markdown("## The PyChain Ledger")
 
 pychain_df = pd.DataFrame(pychain.chain).astype(str)
-st.write(pychain_df)
+if st.checkbox('Show dataframe'):
+   st.write(pychain_df)
 
-difficulty = st.sidebar.slider("Block Difficulty", 1, 5, 2)
+#Increase width of sidebar
+st.markdown(
+    """
+    <style>
+    [data-testid="stSidebar"][aria-expanded="true"] > div:first-child {
+        width: 500px;
+    }
+    [data-testid="stSidebar"][aria-expanded="false"] > div:first-child {
+        width: 500px;
+        margin-left: -500px;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
+
+
+st.sidebar.markdown("### Choose Difficulty level by moving the slider.")
+difficulty = st.sidebar.slider("Select Block Difficulty", 1, 5, 2)
+st.sidebar.text('Difficulty Selected: {}'.format(difficulty))
 pychain.difficulty = difficulty
 
-st.sidebar.write("# Block Inspector")
+
+st.sidebar.write("### Block Inspector")
 selected_block = st.sidebar.selectbox(
     "Which block would you like to see?", pychain.chain
 )
 
-st.sidebar.write(selected_block)
+#st.sidebar.write(selected_block)
+
+# print the selected hobby
+st.sidebar.write("Block Selected: ", selected_block)
 
 if st.button("Validate Chain"):
     st.write(pychain.is_valid())
 
+line_image = Image.open("./IMG/Line.png")
+st.image(line_image)
+st.text("")
+st.text("")
+st.text("")
+st.text("")
+st.text("")
+st.text("")
+st.markdown("##### Project Brief  ([Readme](https://github.com/gpsingh07331/PyChain/Readme.md))")
 ################################################################################
 # Step 4:
 # Test the PyChain Ledger by Storing Records
