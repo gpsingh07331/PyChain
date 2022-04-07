@@ -266,7 +266,7 @@ st.text("")
 st.text("")
 st.text("")
 st.text("")
-st.markdown("##### Project Brief  ([Readme](https://github.com/gpsingh07331/PyChain/PyChain Ledger.md))")
+st.markdown("##### Project Brief  ([Readme](https://github.com/gpsingh07331/PyChain/PyChain.html))")
 ################################################################################
 # Step 4:
 # Test the PyChain Ledger by Storing Records
