@@ -184,14 +184,17 @@ st.markdown("This ledger should allow partner banks to conduct financial transac
 # Add an input area where you can get a value for `sender` from the user.
 # YOUR CODE HERE
 sender_data= st.text_input('Input Sender Information, entity inititating the transaction:')
+st.write(sender_data)
 # @TODO:
 # Add an input area where you can get a value for `receiver` from the user.
 # YOUR CODE HERE
 receiver_data = st.text_input('Input Receiver Information, entity receiving the amount:')
+st.write(receiver_data)
 # @TODO:
 # Add an input area where you can get a value for `amount` from the user.
 # YOUR CODE HERE
-amount_data = st.text_input('Input Amount of transaction:')
+amount = st.text_input('Input Amount of transaction:')
+st.write(amount)
 if st.button("Add Block of transaction"):
     prev_block = pychain.chain[-1]
     prev_block_hash = prev_block.hash_block()
@@ -207,6 +210,7 @@ if st.button("Add Block of transaction"):
     )
 
     pychain.add_block(new_block)
+
     st.balloons()
 
 ################################################################################
@@ -262,7 +266,7 @@ st.text("")
 st.text("")
 st.text("")
 st.text("")
-st.markdown("##### Project Brief  ([Readme](https://github.com/gpsingh07331/PyChain/Readme.md))")
+st.markdown("##### Project Brief  ([Readme](https://github.com/gpsingh07331/PyChain/PyChain Ledger.md))")
 ################################################################################
 # Step 4:
 # Test the PyChain Ledger by Storing Records
