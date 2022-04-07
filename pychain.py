@@ -195,6 +195,7 @@ st.write(receiver_data)
 # YOUR CODE HERE
 amount = st.text_input('Input Amount of transaction:')
 st.write(amount)
+timestamp = datetime.datetime.utcnow().strftime("%H:%M:%S")
 if st.button("Add Block of transaction"):
     prev_block = pychain.chain[-1]
     prev_block_hash = prev_block.hash_block()
@@ -204,7 +205,7 @@ if st.button("Add Block of transaction"):
     # which is set equal to a `Record` that contains the `sender`, `receiver`,
     # and `amount` values
     new_block = Block(
-        record = Record(sender_data, receiver_data, amount ),
+        record = Record(sender_data, receiver_data, timestamp, amount ),
         creator_id=42,
         prev_hash=prev_block_hash
     )
